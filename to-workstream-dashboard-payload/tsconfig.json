@@ -1,7 +1,7 @@
 {
   "compilerOptions": {
     "strict": true,
-    "baseUrl": ".",
+    "baseUrl": "./src",
     "esModuleInterop": true,
     "target": "ES2022",
     "lib": [
@@ -25,15 +25,9 @@
       }
     ],
     "paths": {
-      "@payload-config": [
-        "./src/payload.config.ts"
-      ],
-      "react": [
-        "./node_modules/@types/react"
-      ],
-      "@/*": [
-        "./src/*"
-      ],
+      "@/*": ["*"],
+      "@payload-config": ["payload.config.ts"],
+      "react": ["../node_modules/@types/react"]
     }
   },
   "include": [
@@ -47,5 +41,5 @@
   ],
   "exclude": [
     "node_modules"
-  ],
+  ]
 }

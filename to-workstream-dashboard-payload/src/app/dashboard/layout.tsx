@@ -1,12 +1,12 @@
 export const metadata = {
-  title: 'Workstream Dashboard',
-  description: 'Transformation Program Dashboard',
-};
+  title: 'Transformation Program Dashboard',
+  description: 'Monitor program health, track milestones, and oversee deliverable progress',
+}
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en">
-      <body>{children}</body>
+      <body className="bg-white text-gray-800">{children}</body>
     </html>
-  );
+  )
 }

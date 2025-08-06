@@ -10,6 +10,7 @@
 'use client'
 
 import { useState } from 'react'
+import DashboardFilters from '@/components/ui/DashboardFilters'
 
 type Deliverable = {
   id: string
@@ -102,26 +103,22 @@ export default function DashboardPage() {
         </p>
       </div>
 
-      {/* Filters */}
-      <div className="flex flex-col sm:flex-row gap-4 p-4 bg-gray-100 rounded border">
-        <select value={track} onChange={e=>setTrack(e.target.value)} className="p-2 border rounded flex-1">
-          <option value="all">All Tracks</option>
-          <option value="TR001">TR001</option>
-          <option value="TR002">TR002</option>
-          <option value="TR003">TR003</option>
-        </select>
-        <select value={ws} onChange={e=>setWs(e.target.value)} className="p-2 border rounded flex-1">
-          <option value="all">All Workstreams</option>
-          <option value="WS001">WS001</option>
-          <option value="WS002">WS002</option>
-          <option value="WS003">WS003</option>
-          <option value="WS004">WS004</option>
-          <option value="WS005">WS005</option>
-        </select>
-        <select value={role} onChange={e=>setRole(e.target.value)} className="p-2 border rounded flex-1">
-          <option value="all">All Roles</option>
-        </select>
-      </div>
+      <DashboardFilters
+  selectedTrack={track}
+  selectedWorkstream={ws}
+  selectedRole={role}
+  trackOptions={['TR001', 'TR002', 'TR003']}
+  workstreamOptions={['WS001', 'WS002', 'WS003', 'WS004', 'WS005']}
+  onTrackChange={setTrack}
+  onWorkstreamChange={setWs}
+  onRoleChange={setRole}
+  onClearFilters={() => {
+    setTrack('all')
+    setWs('all')
+    setRole('all')
+  }}
+  hasActiveFilters={track !== 'all' || ws !== 'all' || role !== 'all'}
+/>
 
       {/* Summary Cards */}
       <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">

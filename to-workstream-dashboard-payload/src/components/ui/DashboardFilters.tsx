@@ -1,97 +1,116 @@
 'use client'
 
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
 import { Button } from '@/components/ui/button'
-import { Badge } from '@/components/ui/badge'
-import { X } from 'lucide-react'
+import { ChevronDown } from 'lucide-react'
+import { useEffect, useRef } from 'react'
 
 interface DashboardFiltersProps {
   selectedTrack: string
   selectedWorkstream: string
   selectedRole: string
-  trackOptions: string[]
-  workstreamOptions: string[]
   onTrackChange: (value: string) => void
   onWorkstreamChange: (value: string) => void
   onRoleChange: (value: string) => void
   onClearFilters: () => void
   hasActiveFilters: boolean
+  trackOptions: string[]
+  workstreamOptions: string[]
 }
-
-const roleOptions = [
-  { value: 'all', label: 'All Roles' },
-  { value: 'txc', label: 'Transformation Coordinator (TXC)' },
-  { value: 'dd', label: 'Delivery Director (DD)' },
-  { value: 'ad-sm', label: 'Assistant Director / Senior Manager (AD/SM)' },
-]
 
 export default function DashboardFilters({
   selectedTrack,
   selectedWorkstream,
   selectedRole,
-  trackOptions,
-  workstreamOptions,
   onTrackChange,
   onWorkstreamChange,
   onRoleChange,
   onClearFilters,
   hasActiveFilters,
+  trackOptions,
+  workstreamOptions,
 }: DashboardFiltersProps) {
+  const roleOptions = ['dd', 'dir', 'admin']
+
+  const filterRef = useRef<HTMLDivElement | null>(null)
+
+  useEffect(() => {
+    if (filterRef.current) {
+      filterRef.current.scrollIntoView({ behavior: 'smooth' })
+    }
+  }, [])
+
   return (
-    <div className="flex flex-col sm:flex-row gap-4 p-4 bg-muted/50 rounded-lg border">
-      {/* Track Filter */}
-      <div className="flex-1">
-        <Select value={selectedTrack} onValueChange={onTrackChange}>
-          <SelectTrigger>
-            <SelectValue placeholder="Filter by Track" />
-          </SelectTrigger>
-          <SelectContent>
-            <SelectItem value="all">All Tracks</SelectItem>
-            {trackOptions.map(track => (
-              <SelectItem key={track} value={track}>{track}</SelectItem>
-            ))}
-          </SelectContent>
-        </Select>
-      </div>
+    <div ref={filterRef} className="bg-white rounded-lg p-4 shadow-sm border mb-6">
+      <div className="flex flex-wrap gap-4 items-center justify-between">
+        <div className="flex gap-4 flex-wrap items-center">
+          {/* Track Filter */}
+          <div className="flex flex-col">
+            <label className="text-sm font-medium">Track</label>
+            <div className="relative">
+              <select
+                value={selectedTrack}
+                onChange={(e) => onTrackChange(e.target.value)}
+                className="appearance-none border border-gray-300 rounded px-3 py-2 pr-8 focus:outline-none focus:ring-2 focus:ring-blue-500"
+              >
+                <option value="">All</option>
+                {trackOptions.map((track) => (
+                  <option key={track} value={track}>
+                    {track}
+                  </option>
+                ))}
+              </select>
+              <ChevronDown className="absolute right-2 top-2.5 h-4 w-4 text-gray-500 pointer-events-none" />
+            </div>
+          </div>
 
-      {/* Workstream Filter */}
-      <div className="flex-1">
-        <Select value={selectedWorkstream} onValueChange={onWorkstreamChange}>
-          <SelectTrigger>
-            <SelectValue placeholder="Filter by Workstream" />
-          </SelectTrigger>
-          <SelectContent>
-            <SelectItem value="all">All Workstreams</SelectItem>
-            {workstreamOptions.map(ws => (
-              <SelectItem key={ws} value={ws}>{ws}</SelectItem>
-            ))}
-          </SelectContent>
-        </Select>
-      </div>
+          {/* Workstream Filter */}
+          <div className="flex flex-col">
+            <label className="text-sm font-medium">Workstream</label>
+            <div className="relative">
+              <select
+                value={selectedWorkstream}
+                onChange={(e) => onWorkstreamChange(e.target.value)}
+                className="appearance-none border border-gray-300 rounded px-3 py-2 pr-8 focus:outline-none focus:ring-2 focus:ring-blue-500"
+              >
+                <option value="">All</option>
+                {workstreamOptions.map((ws) => (
+                  <option key={ws} value={ws}>
+                    {ws}
+                  </option>
+                ))}
+              </select>
+              <ChevronDown className="absolute right-2 top-2.5 h-4 w-4 text-gray-500 pointer-events-none" />
+            </div>
+          </div>
 
-      {/* Role Filter */}
-      <div className="flex-1">
-        <Select value={selectedRole} onValueChange={onRoleChange}>
-          <SelectTrigger>
-            <SelectValue placeholder="Filter by Role" />
-          </SelectTrigger>
-          <SelectContent>
-            {roleOptions.map(role => (
-              <SelectItem key={role.value} value={role.value}>{role.label}</SelectItem>
-            ))}
-          </SelectContent>
-        </Select>
-      </div>
-
-      {/* Clear Button */}
-      {hasActiveFilters && (
-        <div className="flex items-center">
-          <Button variant="outline" size="sm" onClick={onClearFilters}>
-            <X className="w-4 h-4 mr-1" />
-            Clear
-          </Button>
+          {/* Role Filter */}
+          <div className="flex flex-col">
+            <label className="text-sm font-medium">Role</label>
+            <div className="relative">
+              <select
+                value={selectedRole}
+                onChange={(e) => onRoleChange(e.target.value)}
+                className="appearance-none border border-gray-300 rounded px-3 py-2 pr-8 focus:outline-none focus:ring-2 focus:ring-blue-500"
+              >
+                <option value="">All</option>
+                {roleOptions.map((role) => (
+                  <option key={role} value={role}>
+                    {role.toUpperCase()}
+                  </option>
+                ))}
+              </select>
+              <ChevronDown className="absolute right-2 top-2.5 h-4 w-4 text-gray-500 pointer-events-none" />
+            </div>
+          </div>
         </div>
-      )}
+
+        {/* Clear Filters */}
+        {hasActiveFilters && (
+          <Button variant="outline" onClick={onClearFilters}>
+            Clear Filters
+          </Button>
+        )}
+      </div>
     </div>
   )
 }

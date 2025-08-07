@@ -238,3 +238,4 @@ export default function DashboardPage() {
     </main>
   )
 }
+;<div className="bg-orange-200 p-4 rounded-lg text-center">Tailwind is working!</div>

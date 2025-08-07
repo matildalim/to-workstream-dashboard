@@ -1,5 +1,7 @@
+//import '../(frontend)/globals.css'
+
 export const metadata = {
-  title: 'Transformation Program Dashboard',
+  title: 'Transformation Office Dashboard',
   description: 'Monitor program health, track milestones, and oversee deliverable progress',
 }
 
